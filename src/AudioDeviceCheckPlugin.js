@@ -4,7 +4,7 @@ import { FlexPlugin } from '@twilio/flex-plugin';
 
 import { registerNotifications } from './notifications';
 import { createListeners } from './listeners';
-import { checkInputDevice, handleInputDeviceError } from './helpers';
+import { checkInputDevice, handleInputDeviceError, isWorkerVoiceEnabled } from './helpers';
 
 const PLUGIN_NAME = 'AudioDeviceCheckPlugin';
 
@@ -25,8 +25,10 @@ export default class AudioDeviceCheckPlugin extends FlexPlugin {
 
     createListeners();
 
-    checkInputDevice().catch(error => {
-      handleInputDeviceError();
-    });
+    if (isWorkerVoiceEnabled()) {
+      checkInputDevice().catch(error => {
+        handleInputDeviceError();
+      });
+    }
   }
 }

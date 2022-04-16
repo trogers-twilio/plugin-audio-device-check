@@ -60,3 +60,11 @@ export const handleInputDeviceError = () => {
     Actions.invokeAction('SetActivity', { activitySid: audioDeviceErrorActivitySid });
   }
 }
+
+export const isWorkerVoiceEnabled = () => {
+  const workerChannels = manager.workerClient?.channels || new Map();
+
+  const voiceChannel = Array.from(workerChannels.values()).find(c => c.taskChannelUniqueName === 'voice');
+  
+  return voiceChannel ? voiceChannel.available : false;
+}
